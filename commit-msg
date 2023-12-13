@@ -1,0 +1,94 @@
+#!/bin/perl
+#日期：2016年6月28日
+
+use Encode;
+
+#intelj ideal不支持.git/COMMITMESSAGE
+open(IN, "<", ".git/COMMIT_EDITMSG");
+@commitmessage = <IN>;
+close(IN);
+
+addBranchIntoHeadOfSubject($commitmessage[0]);
+addChangeId(@commitmessage[$#commitmessage]);
+
+###################################################################################
+#在注释标题行开头添加当前分支名，例如【1605_A】；如果已手工添加分支名，则不重复添加
+sub addBranchIntoHeadOfSubject(){
+    my ($subject) = @_;
+
+    #取当前分支
+    my @branchs = readpipe("git branch");
+    foreach(@branchs){
+        chomp $_;
+        if (m/\* (.+)/){
+            $branch = &encodeToUTF8("【".$1."】");
+        }
+    }
+
+    if(!($subject =~ m/^Merge /) && !($subject=~m/^$branch/)){
+        &addIntoHead($branch);
+    }
+}
+
+############################################################
+#在注释最后生成Change_Id；如果已存在Change-Id:，则不重复添加
+sub addChangeId(){
+    my ($lastLine) = @_;
+    if(!($lastLine =~ m/^Change-Id:/)){
+        $change_id= "\nChange-Id: I".genChangeId();     
+        &addIntoTail($change_id);
+    }
+}
+sub genChangeId() {
+    my $tree = readpipe("git write-tree");
+    my $parent = readpipe("git rev-parse HEAD^0");
+    my $authors = readpipe("git var GIT_AUTHOR_IDENT");
+    my @author = split(/\s+/,$authors);
+    my $ms = $tree.$parent.@author[0].$committer.&getTime();
+    $ms =~ s/\s+//g;
+  return readpipe("echo $ms|git hash-object --stdin");
+}
+sub getTime(){
+    my ($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) = localtime;
+    $year+=1900;
+    $mon++;
+    if($mon<10){$mon="0".$mon;}
+    if($day<10){$day="0".$day;}
+    if($hour<10){$hour="0".$hour;}
+    if($min<10){$min="0".$min;}
+    if($sec<10){$sec="0".$sec;}
+    return $year.$mon.$day.$hour.$min.$sec;
+}
+
+sub addIntoHead(){
+    my ($message) = @_;
+
+    open(IN, "<", ".git/COMMIT_EDITMSG");
+    @line = <IN>;
+    close(IN);
+
+    $line[0] = $message.$line[0];
+
+    open(OUT, ">", ".git/COMMIT_EDITMSG");
+    print OUT @line;
+    close(OUT);
+}
+
+sub addIntoTail(){
+    my ($message) = @_;
+
+    open(IN, "<", ".git/COMMIT_EDITMSG");
+    @line = <IN>;
+    close(IN);
+    $line[$#line] = $line[$#line].$message;
+
+    open(OUT, ">", ".git/COMMIT_EDITMSG");
+    print OUT @line;
+    close(OUT);
+}
+
+sub encodeToUTF8(){
+    my ($message) = @_;
+    $message = encode("utf8", decode("gbk", $message));
+    return $message;
+}

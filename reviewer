@@ -1,0 +1,16 @@
+<config>
+ <type>icbcsdc</type>
+ <users>
+  <user>
+   <chinese_name>审核人姓名1</chinese_name>
+   <domain_name>审核人姓名1(审核人统一认证号1)</domain_name>
+  </user>
+  <user>
+   <chinese_name>审核人姓名2</chinese_name>
+   <domain_name>审核人姓名2(审核人统一认证号2)</domain_name>
+  </user>
+ </users>
+ <customreviewerlist>审核人姓名1,审核人姓名2</customreviewerlist>
+ <overlayreviewer>false</overlayreviewer>
+ <reviewgroup>false</reviewgroup>
+</config>

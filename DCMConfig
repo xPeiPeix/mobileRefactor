@@ -1,0 +1,34 @@
+<config>
+<url>http://122.21.125.22:8080/</url>
+<apps>
+  <app>F-CCIS</app>
+</apps>
+<status>
+  <option>遗留</option>
+  <option>待提交版本</option>
+  <option>待开发中心调整信息</option>
+  <option>待测试中心验证</option>
+  <option>新建</option>
+  <option>待审核</option>
+  <option>补丁待确认</option>
+  <option>补丁待提交</option>
+  <option>补丁待提交</option>
+  <option>待修改</option>
+  <option>测试不通过</option>
+  <option>待版本环境同步</option>
+  <option>待安装版本</option>
+  <option>作废</option>
+  <option>待开发中心确认</option>
+  <option>关闭</option>
+  <option>测试中</option>
+  <option>关闭</option>
+</status>
+<template>
+  <multiIssueTitle>【$branch】【合并卡片$num】</multiIssueTitle>
+  <item>【$branch】【DCM】【$MOD_NO】$MI_MOD_DES</item>
+  <item>【分支】【$branch】</item>
+  <item>【项目编号】$I_PROJECT_NO</item>
+  <item>【测试要点】$MI_TEST_POINT</item>
+</template>
+</config>
+

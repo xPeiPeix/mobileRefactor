@@ -1,0 +1,28 @@
+<config>
+<url>http://122.21.125.22:8080/</url>
+<apps>
+  <app>F-CCIS</app>
+</apps>
+<issueTypes>
+  <issueType>设计编码测试任务</issueType>
+  <issueType>整体管理任务</issueType>
+</issueTypes>
+<taskStatus>
+  <option>开发中</option>
+  <option>待启动</option>
+  <option>设计中</option>
+  <option>功能测试中</option>
+  <option>处理中</option>
+  <option>完成</option>
+  <option>作废</option>
+</taskStatus>
+<template>
+  <multiIssueTitle>【$branch】【合并卡片$num】$合并的issue名</multiIssueTitle>
+  <item>【$branch】【JIRA】【$issueID】$issue名</item>
+  <item>【分支】【$branch】</item>
+  <item>【项目编号】$中心项目编号</item>
+  <item>【项目名称】$中心项目名称</item>
+  <item>【任务描述】$任务描述</item>
+</template>
+</config>
+

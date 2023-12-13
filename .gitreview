@@ -1,0 +1,7 @@
+[gerrit]
+host=scm-xa.sdc.cs.icbc
+port=29418
+project=ccis/customerservicemobilerefactor.git
+defaultbranch=$localBranch
+defaultremote=origin
+defaultrebase=0
