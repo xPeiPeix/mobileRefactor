@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.icbc</groupId>
+    <artifactId>customerservicemobilerefactor</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>csm-common</module>
+        <module>csm-ctl</module>
+        <module>csm-dsf</module>
+        <module>csm-service</module>
+        <module>csm-start</module>
+    </modules>
+
+
+    <properties>
+        <!--指定项目源代码的编码格式 - 统一编码、跨平台兼容、插件行为控制-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--java源代码的编译版本 1.8-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <java.version>1.8</java.version>
+
+        <!--sonar检查排除项-->
+        <sonar.exclusions>
+            **/*Test.java,**/Test*.java,**/xfsproxy/**/*Define.java,**/test/**,**/**.js,**/**.xml,**/**.hql
+        </sonar.exclusions>
+
+        <!--待补充-->
+        <!--<jmockit.jar.path></jmockit.jar.path>-->
+
+        <!--配置版本号-->
+        <sm4.version>1.0.0</sm4.version>
+        <dom4j.version>2.1.3</dom4j.version>
+        <pagehelper.version>1.2.3</pagehelper.version>
+        <log4j.version>2.17.1</log4j.version>
+        <ctp6.version>6.0.00.0.RELEASE</ctp6.version>
+        <gsjdbc4.version>1.0</gsjdbc4.version>
+        <jackson.version>2.11.2</jackson.version>
+        <hermes.version>2.0.0.RELEASE</hermes.version>
+    </properties>
+    <!--父pom文件的公共依赖-->
+    <dependencies>
+        <!--    单元测试    -->
+        <dependency>
+            <groupId>org.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <version>1.20</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+
+        <!-- 解密yml中3des或者sm4加密的值 -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.icbc.dsf</groupId>
+            <artifactId>dsf-cocoa</artifactId>
+            <version>1.3.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.icbc.commons</groupId>
+            <artifactId>commons-gray</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!--ctp-->
+        <dependency>
+            <groupId>com.icbc.hermes</groupId>
+            <artifactId>hermes-ctp-springboot-gray</artifactId>
+            <version>2.0.0.RELEASE</version>
+        </dependency>
+
+        <!--kafka-->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>2.2.8.RELEASE</version>
+        </dependency>
+
+        <!--高性能序列化器-->
+        <dependency>
+            <groupId>de.javakaffee</groupId>
+            <artifactId>kryo-serializers</artifactId>
+            <version>0.42</version>
+        </dependency>
+
+        <!--日志打印-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>2.6.3</version>
+        </dependency>
+
+        <!--安全扫描升级版本 至推荐版本2.9.10.8-->
+        <dependency>
+            <artifactId>jackson-databind</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <version>2.9.10.8</version>
+        </dependency>
+        <!--yaml与java格式互转-->
+        <dependency>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <version>2.12.0</version>
+        </dependency>
+
+        <!-- 引入hmp-client主体jar包 -->
+        <dependency>
+            <groupId>com.icbc.hmp.client</groupId>
+            <artifactId>hmp-client</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- 引入高可用保障平台相关jar包 -->
+        <dependency>
+            <groupId>com.icbc.hmp.client</groupId>
+            <artifactId>hmp-client-ahas-notifier</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- 引入cmc动态配置下发相关jar包 -->
+        <dependency>
+            <groupId>com.icbc.hmp.client</groupId>
+            <artifactId>hmp-client-cmc-notifier</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!--AMC自隔离-->
+        <dependency>
+            <groupId>com.icbc.aip</groupId>
+            <artifactId>aip-f5-checkhealth</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!--cmc依赖（引入阿波罗依赖包）-->
+        <dependency>
+            <groupId>com.icbc.cmc</groupId>
+            <artifactId>cmc-apollo-client</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <!-- 全局异步打印日志 -->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
+        <!-- alibaba fastjson依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.83</version>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.icbc.ctp6</groupId>
+                <artifactId>ctp6-dependencies</artifactId>
+                <version>${ctp6.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.icbc.dsf</groupId>
+                        <artifactId>dsf-spring-boot-starter</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.icbc.commons</groupId>
+                <artifactId>sm4</artifactId>
+                <version>${sm4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>${dom4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>log4j-core</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>log4j-api</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>gsjdbc4</artifactId>
+                <version>${gsjdbc4.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>jackson-core</artifactId>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>jackson-annotations</artifactId>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!--sonar覆盖率扫描-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.4.0.905</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.shared</groupId>
+                        <artifactId>maven-filtering</artifactId>
+                        <version>1.3</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*.xps</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-prepare-integration-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${sonar.jacoco.reportPaths}</destFile>
+                            <append>true</append>
+                            <output>file</output>
+                            <propertyName>surefireArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <!--输出jacoco.xml-->
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${sonar.jacoco.reportPaths}</dataFile>
+                            <outputDirectory>${project.build.directory}/dependency</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <forkCount>6</forkCount> <!--限制jvm虚拟机最大进程数为6-->
+                    <reuseForks>true</reuseForks> <!--jvm可复用-->
+                    <argLine>-Xms512M -Xmx1024M -XX:MaxPermSize=128m</argLine>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <argLine>${surefireArgLine} -javaagent:"${jmockit.jar.path}/jmockit-1.20.jar=coverage"</argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit4</artifactId>
+                        <version>3.0.0-M4</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

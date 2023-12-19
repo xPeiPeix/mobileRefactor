@@ -1,4 +1,13 @@
-/bin/
+# Package Files
 /test-output/
 /target/
 
+ # IDEA specific files
+.idea
+*.iml
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
